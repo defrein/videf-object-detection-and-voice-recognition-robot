@@ -1,5 +1,5 @@
 import RPi.GPIO as GPIO
-from time import sleep
+import time
 
 # set pin GPIO
 ena = 17
@@ -10,7 +10,12 @@ in3 = 23
 in4 = 24
 temp1 = 1
 
+TRIG = 20
+ECHO = 21
+
+
 GPIO.setmode(GPIO.BCM)
+
 GPIO.setup(ena, GPIO.OUT)
 GPIO.setup(enb, GPIO.OUT)
 
@@ -31,7 +36,6 @@ p1.start(25)
 p2.start(25)
 
 # change speed function from 0 to 100% speed
-
 
 def changeSpeed(pwm):
     p1.ChangeDutyCycle(pwm)
