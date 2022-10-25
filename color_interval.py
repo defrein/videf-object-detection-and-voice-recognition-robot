@@ -14,7 +14,7 @@ def whichColor(color_data):
         upper_color = np.array([35, 255, 255])
     elif color_data == "jingga" or color_data == "orange":
         lower_color = np.array([0, 120, 50])
-        upper_color = np.array([20, 255, 255])
+        upper_color = np.array([25, 255, 255])
     elif color_data == "ungu":
         lower_color = np.array([110, 86, 36])
         upper_color = np.array([140, 255, 255])
