@@ -1,4 +1,9 @@
 # IMPORT ALL LIBRARIES
+
+# ignore warning from gpiozero
+import warnings
+warnings.simplefilter('ignore')
+
 # - for voice recognition
 import speech_recognition as sr
 import playsound
@@ -22,7 +27,9 @@ from motor import *
 
 # - for button and led
 import time
-from button_led import *
+from button_led_sensor import *
+
+
 
 
 # FUNCTIONS
@@ -57,7 +64,7 @@ def speak(audio_string):
     audio_file = 'audio' + str(r) + '.mp3'
     tts.save(audio_file)
     playsound.playsound(audio_file)
-    print(audio_string)
+    # print(audio_string)
     os.remove(audio_file)
 
 
@@ -77,7 +84,7 @@ def respond(voice_data):
 
 
 def drive():
-    global cx, cy, flag, lock, found, count, notfound
+    global cx, cy, flag, lock, found, count, notfound, threadStop
     while not threadStop:
         if flag == 1 and lock:
             if cx > 400 and cy > 180 and cy < 300:
@@ -97,19 +104,28 @@ def drive():
             else:
                 motorStop()
                 found = True
+                threadStop = True
+                # jarak = calculateDistance()
+                # print("jarak: ", jarak)
+                # if jarak < 30:
+                #     motorStop()
+                #     found = True
         else:
             while flag == 0 and count <= 2000:
                 motorLeft(30)
                 count = count + 0.001
-                if count >= 2000:
+                if count >= 2000 and found == False:
                     motorStop()
                     notfound = True
+                    threadStop = True
 
 
 def resetState():
+    global threadStop, found, notfound,lower_color, upper_color, color_text, flag, lock, device
     motorStop()
     threadStop = True
     found = False
+    notfound = False
     lower_color = None
     upper_color = None
     color_text = ''
@@ -117,6 +133,7 @@ def resetState():
     lock = False
     device.stop()
     device = None
+    # GPIO.cleanup()
 
 
 # initialize for voice recognition
@@ -124,7 +141,7 @@ r = sr.Recognizer()
 voice_data = ''
 color_text = ''
 # global found, notfound
-
+speak("Videf")
 time.sleep(1)
 while True:
     found = False
@@ -137,8 +154,8 @@ while True:
         # print(voice_data)
         if len(color_text) > 0:
             lower, upper = whichColor(color_text)
-            print(lower)
-            print(upper)
+            # print(lower)
+            # print(upper)
             global cx, cy, flag, lock, threadStop
             threadStop = False
             lock = False
