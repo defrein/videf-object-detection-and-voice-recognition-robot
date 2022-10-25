@@ -1,0 +1,2 @@
+[Desktop Entry]
+Exec= python3 /home/videf/videf_robot/main.py
