@@ -8,11 +8,7 @@ in1 = 27
 in2 = 22
 in3 = 23
 in4 = 24
-temp1 = 1
-
-TRIG = 20
-ECHO = 21
-
+# temp1 = 1
 
 GPIO.setmode(GPIO.BCM)
 
